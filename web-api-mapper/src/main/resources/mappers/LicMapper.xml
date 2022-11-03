@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.unisguard.webapi.mapper.lic.LicMapper">
+  <resultMap id="resultMap" type="com.unisguard.webapi.common.dataobject.lic.LicDO">
+    <id column="id" property="id" />
+    <result column="auth_time" property="authTime" />
+    <result column="auth_name" property="authName" />
+    <result column="auth_cycle" property="authCycle" />
+    <result column="longitude" property="longitude" />
+    <result column="latitude" property="latitude" />
+    <result column="country" property="country" />
+    <result column="country_code" property="countryCode" />
+    <result column="area" property="area" />
+    <result column="city" property="city" />
+    <result column="status" property="status" />
+    <result column="update_time" property="updateTime" />
+    <result column="last_pwd_time" property="lastPwdTime" />
+    <result column="auth_content" property="authContent" />
+    <result column="secret_key" property="secretKey" />
+  </resultMap>
+  <select id="list" parameterType="com.unisguard.webapi.common.dataobject.lic.LicDO" resultMap="resultMap">
+    select id,auth_time,auth_name,auth_cycle,longitude,latitude,country,country_code,area,city,status,update_time,last_pwd_time,auth_content,secret_key
+    from t_lic
+    ORDER BY id DESC
+  </select>
+  <insert id="add" keyProperty="id" parameterType="com.unisguard.webapi.common.dataobject.lic.LicDO" useGeneratedKeys="true">
+    insert into t_lic
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="authTime != null">
+        auth_time,
+      </if>
+      <if test="authName != null">
+        auth_name,
+      </if>
+      <if test="authCycle != null">
+        auth_cycle,
+      </if>
+      <if test="longitude != null">
+        longitude,
+      </if>
+      <if test="latitude != null">
+        latitude,
+      </if>
+      <if test="country != null">
+        country,
+      </if>
+      <if test="countryCode != null">
+        country_code,
+      </if>
+      <if test="area != null">
+        area,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="lastPwdTime != null">
+        last_pwd_time,
+      </if>
+      <if test="authContent != null">
+        auth_content,
+      </if>
+      <if test="secretKey != null">
+        secret_key,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="authTime != null">
+        #{authTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="authName != null">
+        #{authName,jdbcType=VARCHAR},
+      </if>
+      <if test="authCycle != null">
+        #{authCycle,jdbcType=INTEGER},
+      </if>
+      <if test="longitude != null">
+        #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null">
+        #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="countryCode != null">
+        #{countryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null">
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastPwdTime != null">
+        #{lastPwdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="authContent != null">
+        #{authContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="secretKey != null">
+        #{secretKey,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="delete" parameterType="java.lang.Long">
+    update t_lic set status = 9 where status = 1
+  </update>
+
+  <select id="last" resultMap="resultMap">
+    select a.id,a.auth_time,a.auth_name,a.auth_cycle,a.auth_content,a.secret_key,a.status,
+           a.longitude,a.latitude,a.country,a.country_code,a.area,a.city,a.update_time,a.last_pwd_time
+    from t_lic a
+    where a.status = 1
+  </select>
+
+  <update id="updateStatus">
+    update t_lic set status = 9 where 1 = 1
+  </update>
+</mapper>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.unisguard.webapi.mapper.menu.MenuUrlMapper">
+    <resultMap id="resultMap" type="com.unisguard.webapi.common.dataobject.menu.MenuUrlDO">
+        <id column="id" property="id"/>
+        <result column="menu_id" property="menuId"/>
+        <result column="url" property="url"/>
+        <result column="name" property="name"/>
+    </resultMap>
+    <select id="list" parameterType="com.unisguard.webapi.common.dataobject.menu.MenuUrlDO" resultMap="resultMap">
+        select id,menu_id,url,name
+        from t_menu_url
+        <where>
+            <if test="id != null">
+               and id = #{id}
+            </if>
+            <if test="menuId != null">
+               and menu_id = #{menuId}
+            </if>
+            <if test="url != null and url != '' and name !=null and name != ''">
+                and (name like concat('%',#{name},'%') or url like concat('%',#{url},'%'))
+            </if>
+
+        </where>
+        order by id desc
+    </select>
+    <!-- 批量保存 -->
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_menu_url
+        (
+        menu_id,
+        name,
+        url
+        )
+        VALUES
+        <foreach item="item" index="index" collection="list" separator=",">
+            (
+            #{item.menuId},
+            #{item.name},
+            #{item.url}
+            )
+        </foreach>
+    </insert>
+    <select id="detail" parameterType="java.lang.Long" resultMap="resultMap">
+    select id,menu_id,url,name
+    from t_menu_url
+    where id = #{id}
+  </select>
+    <update id="edit" parameterType="com.unisguard.webapi.common.dataobject.menu.MenuUrlDO">
+        update t_menu_url
+        <set>
+            <if test="menuId != null">
+                menu_id = #{menuId,jdbcType=BIGINT},
+            </if>
+            <if test="url != null">
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <delete id="delete" parameterType="java.lang.Long">
+    delete from t_menu_url where id = #{id}
+  </delete>
+
+    <select id="queryListByUserId" parameterType="java.lang.Long" resultType="java.lang.String">
+     select a.url
+     from t_menu_url a
+     inner join t_menu b on a.menu_id = b.id
+	 inner join t_role_menu c on b.id = c.menu_id
+	 inner join t_role d on c.role_id = d.id
+     inner join t_user_role e on d.id = e.role_id
+	 inner join t_user f on e.user_id = f.id
+     where f.id = #{userId} and b.status = 1 and d.status = 1 and f.status = 1
+  </select>
+
+    <select id="queryListByMenuId" parameterType="java.lang.Long" resultMap="resultMap">
+    select a.url,a.name,menu_id
+    from t_menu_url a
+    where a.menu_id = #{menuId}
+    order by a.id desc
+  </select>
+</mapper>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.unisguard.webapi.mapper.group.GroupMapper">
+  <resultMap id="resultMap" type="com.unisguard.webapi.common.dataobject.group.GroupDO">
+    <id column="id" property="id" />
+    <result column="name" property="name" />
+    <result column="pid" property="pid" />
+    <result column="mgr_id" property="mgrId" />
+    <result column="status" property="status" />
+    <result column="update_time" property="updateTime" />
+    <result column="update_user_id" property="updateUserId" />
+    <result column="update_user_name" property="updateUserName" />
+    <result column="description" property="description" />
+    <result column="pname" property="pname" />
+  </resultMap>
+  <select id="list" parameterType="com.unisguard.webapi.common.dataobject.group.GroupDO" resultMap="resultMap">
+    select id,name,pid,mgr_id,status,update_time,update_user_id,description
+    from t_group
+    <where>
+        status != 9
+      <if test="id != null">
+        and  id = #{id}
+      </if>
+      <if test="name != null and name != '' ">
+        and name like concat('%',#{name},'%')
+      </if>
+      <if test="pid != null and pid != 0">
+        and  pid = #{pid}
+      </if>
+      <if test="mgrId != null and mgrId != 0">
+        and mgr_id = #{mgrId}
+      </if>
+      <if test="status != null and status != 0">
+        and  status = #{status}
+      </if>
+      <if test="updateTime != null">
+        and  update_time = #{updateTime}
+      </if>
+      <if test="updateUserId != null">
+        and  update_user_id = #{updateUserId}
+      </if>
+      <if test="description != null">
+        and  description = #{description}
+      </if>
+    </where>
+  </select>
+  <insert id="add" keyProperty="id" parameterType="com.unisguard.webapi.common.dataobject.group.GroupDO" useGeneratedKeys="true">
+    insert into t_group
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="pid != null">
+        pid,
+      </if>
+      <if test="mgrId != null">
+        mgr_id,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null">
+        #{pid,jdbcType=BIGINT},
+      </if>
+      <if test="mgrId != null">
+        #{mgrId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="detail" parameterType="java.lang.Long" resultMap="resultMap">
+    select g.id,g.name,g.pid,g.mgr_id,g.update_time,g.update_user_id,g.description,u.name as update_user_name,g.status,tg.name as pname
+    from t_group g left join t_user u on g.update_user_id = u.id left join t_group tg on g.pid = tg.id
+    where g.id = #{id}
+  </select>
+  <update id="edit" parameterType="com.unisguard.webapi.common.dataobject.group.GroupDO">
+     update t_group
+    <set>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null">
+        pid = #{pid,jdbcType=BIGINT},
+      </if>
+      <if test="mgrId != null">
+        mgr_id = #{mgrId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="delete" parameterType="java.lang.Long">
+    update  t_group
+       set
+    status = 9
+    where id = #{id}
+  </update>
+
+  <select id="queryGroupByRoleId" parameterType="java.lang.Long" resultMap="resultMap">
+    select g1.id,g1.name,g1.pid,g1.mgr_id,g1.update_time,g1.update_user_id,g1.description,g2.name as pname
+    from t_group g1
+    left join t_group g2 on g1.pid = g2.id
+    where  g1.status!= 9 and g1.id in (select gr.group_id from t_group_role gr where gr.role_id = #{roleId})
+  </select>
+
+  <select id="queryList" resultMap="resultMap">
+    select id,name
+    from t_group where status != 9
+  </select>
+
+  <select id="checkName" parameterType="java.lang.String" resultMap="resultMap">
+    select id,name
+    from t_group where status != 9
+    and name = #{name}
+  </select>
+
+  <select id="queryChildrenList" parameterType="java.lang.Long" resultMap="resultMap">
+    select g.id,g.name,g.pid,g.mgr_id,g.update_time,g.update_user_id,g.description
+    from t_group g
+    where g.pid = #{id} and g.status != 9
+  </select>
+
+  <update id="updateStatus" parameterType="com.unisguard.webapi.common.dataobject.group.GroupDO">
+    update t_group
+    <set>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

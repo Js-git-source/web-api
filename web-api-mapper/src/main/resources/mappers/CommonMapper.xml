@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.unisguard.webapi.mapper.common.CommonMapper">
+
+
+    <!-- 获取主键 -->
+    <select id="getUUID" resultType="String">
+        SELECT UUID()
+    </select>
+
+
+
+
+</mapper>

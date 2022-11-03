@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.unisguard.webapi.mapper.mon.MonMapper">
+    <resultMap id="resultMap" type="com.unisguard.webapi.common.dataobject.mon.MonDO">
+        <id column="id" property="id"/>
+        <result column="category" property="category"/>
+        <result column="type" property="type"/>
+        <result column="ip" property="ip"/>
+        <result column="version" property="version"/>
+        <result column="mem_max" property="memMax"/>
+        <result column="mem_local" property="memLocal"/>
+        <result column="mem_use" property="memUse"/>
+        <result column="mem_rate" property="memRate"/>
+        <result column="mem_frag" property="memFrag"/>
+        <result column="cpu_rate" property="cpuRate"/>
+        <result column="gc_rate" property="gcRate"/>
+        <result column="thread_max" property="threadMax"/>
+        <result column="thread_cnt" property="threadCnt"/>
+        <result column="thread_busy" property="threadBusy"/>
+        <result column="session_max" property="sessionMax"/>
+        <result column="session_cnt" property="sessionCnt"/>
+        <result column="disk_total" property="diskTotal"/>
+        <result column="disk_use" property="diskUse"/>
+        <result column="client_cnt" property="clientCnt"/>
+        <result column="slave_cnt" property="slaveCnt"/>
+        <result column="key_cnt" property="keyCnt"/>
+        <result column="sys_load" property="sysLoad"/>
+        <result column="uptime" property="uptime"/>
+        <result column="topic" property="topic"/>
+        <result column="group_id" property="groupId"/>
+        <result column="lag_total" property="lagTotal"/>
+        <result column="produce_speed" property="produceSpeed"/>
+        <result column="consume_speed" property="consumeSpeed"/>
+        <result column="rate" property="rate"/>
+        <result column="lag_day" property="lagDay"/>
+        <result column="name" property="name"/>
+        <result column="crontab" property="crontab"/>
+        <result column="ret" property="ret"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="disk_json" property="diskJson"/>
+        <result column="description" property="description"/>
+    </resultMap>
+    <select id="list" parameterType="com.unisguard.webapi.common.dataobject.mon.MonDO" resultMap="resultMap">
+        select
+        id,category,type,ip,version,mem_max,mem_local,mem_use,mem_rate,mem_frag,cpu_rate,gc_rate,thread_max,thread_cnt,thread_busy,session_max,session_cnt,disk_total,disk_use,client_cnt,slave_cnt,key_cnt,sys_load,uptime,topic,group_id,lag_total,produce_speed,consume_speed,rate,lag_day,name,crontab,ret,update_time,disk_json,description
+        from t_mon
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="category != null">
+                and  category = #{category}
+            </if>
+            <if test="type != null">
+                and  type = #{type}
+            </if>
+            <if test="ip != null">
+                and ip = #{ip}
+            </if>
+            <if test="version != null">
+                and  version = #{version}
+            </if>
+            <if test="memMax != null">
+                and  mem_max = #{memMax}
+            </if>
+            <if test="memLocal != null">
+                and   mem_local = #{memLocal}
+            </if>
+            <if test="memUse != null">
+                and  mem_use = #{memUse}
+            </if>
+            <if test="memRate != null">
+                and  mem_rate = #{memRate}
+            </if>
+            <if test="memFrag != null">
+                and  mem_frag = #{memFrag}
+            </if>
+            <if test="cpuRate != null">
+                and cpu_rate = #{cpuRate}
+            </if>
+            <if test="gcRate != null">
+                and  gc_rate = #{gcRate}
+            </if>
+            <if test="threadMax != null">
+                and thread_max = #{threadMax}
+            </if>
+            <if test="threadCnt != null">
+                and thread_cnt = #{threadCnt}
+            </if>
+            <if test="threadBusy != null">
+                and  thread_busy = #{threadBusy}
+            </if>
+            <if test="sessionMax != null">
+                and session_max = #{sessionMax}
+            </if>
+            <if test="sessionCnt != null">
+                and session_cnt = #{sessionCnt}
+            </if>
+            <if test="diskTotal != null">
+                and disk_total = #{diskTotal}
+            </if>
+            <if test="diskUse != null">
+                and disk_use = #{diskUse}
+            </if>
+            <if test="clientCnt != null">
+                and client_cnt = #{clientCnt}
+            </if>
+            <if test="slaveCnt != null">
+                and  slave_cnt = #{slaveCnt}
+            </if>
+            <if test="keyCnt != null">
+                and key_cnt = #{keyCnt}
+            </if>
+            <if test="sysLoad != null">
+                and sys_load = #{sysLoad}
+            </if>
+            <if test="uptime != null">
+                and uptime = #{uptime}
+            </if>
+            <if test="topic != null">
+                and topic = #{topic}
+            </if>
+            <if test="groupId != null">
+                and group_id = #{groupId}
+            </if>
+            <if test="lagTotal != null">
+                and  lag_total = #{lagTotal}
+            </if>
+            <if test="produceSpeed != null">
+                and  produce_speed = #{produceSpeed}
+            </if>
+            <if test="consumeSpeed != null">
+                and  consume_speed = #{consumeSpeed}
+            </if>
+            <if test="rate != null">
+                and  rate = #{rate}
+            </if>
+            <if test="lagDay != null">
+                and lag_day = #{lagDay}
+            </if>
+            <if test="name != null">
+                and name = #{name}
+            </if>
+            <if test="crontab != null">
+                and  crontab = #{crontab}
+            </if>
+            <if test="ret != null">
+                and ret = #{ret}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="diskJson != null">
+                and disk_json = #{diskJson}
+            </if>
+            <if test="description != null">
+                and description = #{description}
+            </if>
+        </where>
+        order by update_time
+    </select>
+    <select id="detail" parameterType="com.unisguard.webapi.common.dataobject.mon.MonDO" resultMap="resultMap">
+        select
+        id,category,type,ip,version,mem_max,mem_local,mem_use,mem_rate,mem_frag,cpu_rate,gc_rate,thread_max,thread_cnt,thread_busy,session_max,session_cnt,disk_total,disk_use,client_cnt,slave_cnt,key_cnt,sys_load,uptime,topic,group_id,lag_total,produce_speed,consume_speed,rate,lag_day,name,crontab,ret,update_time,disk_json,description
+        from t_mon
+        <where>
+            <if test="ip != null and ip!=''">
+                and  ip = #{ip}
+            </if>
+            <if test="category != null and category != ''">
+                and category = #{category}
+            </if>
+            <if test="type != null and type != 0">
+                and type = #{type}
+            </if>
+        </where>
+        limit 1
+    </select>
+    <select id="getEngineList" parameterType="com.unisguard.webapi.common.dataobject.mon.MonDO" resultMap="resultMap">
+        SELECT
+        name,ip,crontab,description,update_time,ret
+        FROM t_mon
+        <where>
+            <if test="category != null and category != 0">
+                and category = #{category}
+            </if>
+            <if test="type != null and type != 0">
+                and type = #{type}
+            </if>
+            <if test="ip != null and ip != ''">
+                and ip = #{ip}
+            </if>
+        </where>
+    </select>
+    <select id="indexList" parameterType="com.unisguard.webapi.common.dataobject.mon.MonDO" resultMap="resultMap">
+        select
+        id,category,type,ip,sys_load,cpu_rate,mem_max,mem_use,disk_total,disk_use,uptime,update_time
+        from t_mon
+        <where>
+            <if test="id != null">
+                and   id = #{id}
+            </if>
+            <if test="category != null">
+                and  category = #{category}
+            </if>
+            <if test="type != null">
+                and  type = #{type}
+            </if>
+            <if test="ip != null">
+                and    ip = #{ip}
+            </if>
+        </where>
+        order by update_time
+    </select>
+    <select id="middlewareList" parameterType="com.unisguard.webapi.common.dataobject.mon.MonDO" resultMap="resultMap">
+        select
+        id,category,type,ip,topic,group_id,lag_total,produce_speed,consume_speed,rate,lag_day,update_time
+        from t_mon
+        <where>
+            <if test="id != null">
+                and  id = #{id}
+            </if>
+            <if test="category != null">
+                and   category = #{category}
+            </if>
+            <if test="type != null">
+                and  type = #{type}
+            </if>
+            <if test="ip != null">
+                and  ip = #{ip}
+            </if>
+        </where>
+        order by update_time
+    </select>
+</mapper>

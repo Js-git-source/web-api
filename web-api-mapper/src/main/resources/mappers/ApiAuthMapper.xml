@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.unisguard.webapi.mapper.apiclient.ApiAuthMapper">
+  <resultMap id="resultMap" type="com.unisguard.webapi.common.dataobject.apiclient.ApiAuthDO">
+    <id column="id" property="id" />
+    <result column="client_id" property="clientId" />
+    <result column="api_id" property="apiId" />
+  </resultMap>
+  <select id="list" parameterType="com.unisguard.webapi.common.dataobject.apiclient.ApiAuthDO" resultMap="resultMap">
+    select id,client_id,api_id
+    from t_api_auth
+    <where>
+      <if test="id != null">
+        id = #{id}
+      </if>
+      <if test="clientId != null">
+        AND client_id = #{clientId}
+      </if>
+      <if test="apiId != null">
+        AND api_id = #{apiId}
+      </if>
+    </where>
+  </select>
+  <select id="apiList" parameterType="com.unisguard.webapi.common.dataobject.apiclient.ApiAuthDO" resultType="com.unisguard.webapi.common.dataobject.api.ApiDO">
+        SELECT
+        auth.id,
+        api.NAME,
+        api.url,
+        api.description
+        FROM
+        t_api_auth auth
+        LEFT JOIN
+        t_api api
+        ON
+        api.id = auth.api_id
+        WHERE auth.client_id = #{clientId}
+        <if test="name != null">
+            AND api.name LIKE CONCAT(CONCAT('%', #{name}), '%')
+        </if>
+        <if test="url != null">
+            AND api.url LIKE CONCAT(CONCAT('%', #{url}), '%')
+        </if>
+  </select>
+  <select id="notApiList" parameterType="com.unisguard.webapi.common.dataobject.apiclient.ApiAuthDO" resultType="com.unisguard.webapi.common.dataobject.api.ApiDO">
+        SELECT
+        api.id,
+        api.NAME,
+        api.url,
+        api.description
+        FROM
+        t_api api
+        WHERE
+        NOT EXISTS ( SELECT 1 FROM t_api_auth auth WHERE api.id = auth.api_id AND client_id = #{clientId} )
+        <if test="name != null">
+          AND api.name LIKE CONCAT(CONCAT('%', #{name}), '%')
+        </if>
+        <if test="url != null">
+          AND api.url LIKE CONCAT(CONCAT('%', #{url}), '%')
+        </if>
+  </select>
+  <insert id="add" keyProperty="id" parameterType="com.unisguard.webapi.common.dataobject.apiclient.ApiAuthDO" useGeneratedKeys="true">
+    insert into t_api_auth
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="clientId != null">
+        client_id,
+      </if>
+      <if test="apiId != null">
+        api_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="clientId != null">
+        #{clientId,jdbcType=BIGINT},
+      </if>
+      <if test="apiId != null">
+        #{apiId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="detail" parameterType="java.lang.Long" resultMap="resultMap">
+    select id,client_id,api_id
+    from t_api_auth
+    where id = #{id}
+  </select>
+  <update id="edit" parameterType="com.unisguard.webapi.common.dataobject.apiclient.ApiAuthDO">
+     update t_api_auth
+    <set>
+      <if test="clientId != null">
+        client_id = #{clientId,jdbcType=BIGINT},
+      </if>
+      <if test="apiId != null">
+        api_id = #{apiId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <delete id="delete" parameterType="java.lang.Long">
+      DELETE
+      FROM
+          t_api_auth
+      WHERE
+          id = #{id}
+  </delete>
+    <delete id="cancelAuth" parameterType="java.lang.Long">
+        delete from t_api_auth where api_id = #{id}
+    </delete>
+</mapper>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.unisguard.webapi.mapper.user.UserHistoryMapper">
+  <resultMap id="resultMap" type="com.unisguard.webapi.common.dataobject.user.UserHistoryDO">
+    <id column="id" property="id" />
+    <result column="user_id" property="userId" />
+    <result column="passwrod" property="passwrod" />
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  <select id="list" parameterType="com.unisguard.webapi.common.dataobject.user.UserHistoryDO" resultMap="resultMap">
+    select id,user_id,passwrod,update_time
+    from t_user_history
+    <where>
+      <if test="id != null">
+        id = #{id}
+      </if>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="passwrod != null">
+        passwrod = #{passwrod}
+      </if>
+      <if test="updateTime != null">
+        update_time &gt;= #{updateTime}
+      </if>
+    </where>
+  </select>
+  <insert id="add" keyProperty="id" parameterType="com.unisguard.webapi.common.dataobject.user.UserHistoryDO" useGeneratedKeys="true">
+    insert into t_user_history
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="passwrod != null">
+        passwrod,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="passwrod != null">
+        #{passwrod,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="detail" parameterType="java.lang.Long" resultMap="resultMap">
+    select id,user_id,passwrod,update_time
+    from t_user_history
+    where id = #{id}
+  </select>
+  <update id="edit" parameterType="com.unisguard.webapi.common.dataobject.user.UserHistoryDO">
+     update t_user_history
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="passwrod != null">
+        passwrod = #{passwrod,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <delete id="delete" parameterType="java.lang.Long">
+    delete from t_user_history where id = #{id}
+  </delete>
+</mapper>

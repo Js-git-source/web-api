@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.unisguard.webapi.mapper.apiclient.ApiClientMapper">
+  <resultMap id="resultMap" type="com.unisguard.webapi.common.dataobject.apiclient.ApiClientDO">
+    <id column="id" property="id" />
+    <result column="name" property="name" />
+    <result column="appid" property="appid" />
+    <result column="appkey" property="appkey" />
+    <result column="status" property="status" />
+    <result column="update_time" property="updateTime" />
+    <result column="update_user_id" property="updateUserId" />
+    <result column="description" property="description" />
+    <result column="api_count" property="apiCount" />
+  </resultMap>
+  <select id="list" parameterType="com.unisguard.webapi.common.dataobject.apiclient.ApiClientDO" resultMap="resultMap">
+    SELECT
+    t.id,
+    t.NAME,
+    t.appid,
+    t.appkey,
+    t.STATUS,
+    t.update_time,
+    t.update_user_id,
+    t.description,
+    ( SELECT count( api_id ) FROM t_api_auth auth WHERE auth.client_id = t.id ) api_count
+    FROM
+    t_api_client t
+    WHERE status !=9
+      <if test="name != null">
+        AND name LIKE CONCAT(CONCAT('%', #{name}), '%')
+      </if>
+      <if test="appid != null">
+        AND appid = #{appid}
+      </if>
+      <if test="appkey != null">
+        AND appkey = #{appkey}
+      </if>
+      <if test="status != null">
+        AND status = #{status}
+      </if>
+      <if test="description != null">
+        AND description = #{description}
+      </if>
+      ORDER BY update_time DESC
+  </select>
+  <select id="exist" parameterType="com.unisguard.webapi.common.dataobject.apiclient.ApiClientDO" resultType="Integer">
+    select count(1) from t_api_client where name = #{name} and status != 9
+  </select>
+  <!-- 获取表中最大的appid-->
+  <select id="getMaxAppId" resultType="String">
+    select max(cast(appid AS DECIMAL)) maxAppId from t_api_client where `status` != 9
+  </select>
+  <insert id="add" keyProperty="id" parameterType="com.unisguard.webapi.common.dataobject.apiclient.ApiClientDO" useGeneratedKeys="true">
+    insert into t_api_client
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="appid != null">
+        appid,
+      </if>
+      <if test="appkey != null">
+        appkey,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="appid != null">
+        #{appid,jdbcType=VARCHAR},
+      </if>
+      <if test="appkey != null">
+        #{appkey,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="detail" parameterType="java.lang.Long" resultMap="resultMap">
+    select id,name,appid,appkey,status,update_time,update_user_id,description
+    from t_api_client
+    where id = #{id}
+    and  `status` != 9
+  </select>
+  <update id="edit" parameterType="com.unisguard.webapi.common.dataobject.apiclient.ApiClientDO">
+     update t_api_client
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="appid != null">
+        appid = #{appid,jdbcType=VARCHAR},
+      </if>
+      <if test="appkey != null">
+        appkey = #{appkey,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- 只更新状态 -->
+  <update id="editStatus" parameterType="com.unisguard.webapi.common.dataobject.apiclient.ApiClientDO">
+    update t_api_client set status = #{status,jdbcType=INTEGER} where id = #{id,jdbcType=BIGINT}
+  </update>
+  <delete id="delete" parameterType="java.lang.Long">
+    update t_api_client set `status` = 9 where id = #{id}
+  </delete>
+</mapper>

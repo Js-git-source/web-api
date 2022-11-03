@@ -1,0 +1,32 @@
+<config>
+    <input>
+        <jar in="../../web-api-manage/target/*.jar" out="../../allatori/output/*.jar"/>
+        <jar in="../../web-api-service/target/*.jar" out="../../allatori/output/*.jar"/>
+        <jar in="../../web-api-controller/target/*.jar" out="../../allatori/output/*.jar"/>
+    </input>
+
+    <classpath basedir="../../web-api-web/target/web-api-web/WEB-INF/lib">
+        <jar name="*.jar"/>
+    </classpath>
+
+    <!-- 不混淆的名称 -->
+    <keep-names>
+        <!-- 控制器类名不混淆 -->
+        <class template="class com.unisguard.webapi.controller.*"/>
+    </keep-names>
+    <!-- 混淆映射日志文件 -->
+    <property name="log-file" value="../output/log.xml"/>
+    <!-- 异常打印混淆之前的行数 -->
+    <property name="line-numbers" value="obfuscate"/>
+    <!-- 包名保持不变 -->
+    <property name="packages-naming" value="keep"/>
+    <!-- 类名命名规则 保持类名唯一-->
+    <property name="classes-naming" value="unique"/>
+    <property name="classes-naming" value="abc"/>
+    <property name="classes-naming" value="keep-$-sign"/>
+    <property name="local-variables-naming" value="keep-parameters"/>
+    <ignore-classes>
+        <class template="class com.unisguard.webapi.config.*"/>
+    </ignore-classes>
+
+</config>

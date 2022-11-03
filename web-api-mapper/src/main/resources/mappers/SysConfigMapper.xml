@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.unisguard.webapi.mapper.sysconfig.SysConfigMapper">
+    <resultMap id="resultMap" type="com.unisguard.webapi.common.dataobject.sysconfig.SysConfigDO">
+        <id column="id" property="id"/>
+        <result column="data_key" property="dataKey"/>
+        <result column="data_value" property="dataValue"/>
+    </resultMap>
+    <select id="list" parameterType="com.unisguard.webapi.common.dataobject.sysconfig.SysConfigDO"
+            resultMap="resultMap">
+        select id,data_key,data_value
+        from t_sys_config
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+            <if test="dataKey != null">
+                data_key = #{dataKey}
+            </if>
+            <if test="dataValue != null">
+                data_value = #{dataValue}
+            </if>
+        </where>
+        ORDER BY id desc
+    </select>
+    <insert id="add" keyProperty="id" parameterType="com.unisguard.webapi.common.dataobject.sysconfig.SysConfigDO"
+            useGeneratedKeys="true">
+        insert into t_sys_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="dataKey != null">
+                data_key,
+            </if>
+            <if test="dataValue != null">
+                data_value,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="dataKey != null">
+                #{dataKey,jdbcType=VARCHAR},
+            </if>
+            <if test="dataValue != null">
+                #{dataValue,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="detail" parameterType="java.lang.Long" resultMap="resultMap">
+      select id,data_key,data_value
+      from t_sys_config
+      where id = #{id}
+    </select>
+    <update id="edit" parameterType="com.unisguard.webapi.common.dataobject.sysconfig.SysConfigDO">
+        update t_sys_config
+        <set>
+            <if test="dataKey != null">
+                data_key = #{dataKey,jdbcType=VARCHAR},
+            </if>
+            <if test="dataValue != null">
+                data_value = #{dataValue,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <delete id="delete" parameterType="java.lang.Long">
+        delete from t_sys_config where id = #{id}
+    </delete>
+    <select id="queryAll" resultMap="resultMap">
+        select id,data_key,data_value from t_sys_config
+    </select>
+</mapper>

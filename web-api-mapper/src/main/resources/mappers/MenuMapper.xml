@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.unisguard.webapi.mapper.menu.MenuMapper">
+    <resultMap id="resultMap" type="com.unisguard.webapi.common.dataobject.menu.MenuDO">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="type" property="type"/>
+        <result column="tag" property="tag"/>
+        <result column="sort" property="sort"/>
+        <result column="url" property="url"/>
+        <result column="icon" property="icon"/>
+        <result column="open_win" property="openWin"/>
+        <result column="status" property="status"/>
+        <result column="level" property="level"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="parent_name" property="parentName"/>
+    </resultMap>
+    <select id="list" resultMap="resultMap">
+        select m.id,m.name,m.type,m.tag,m.sort,m.url,m.icon,m.open_win,m.status,m.level,m.parent_id,tm.name as
+        parent_name
+        from t_menu m left join t_menu tm on m.parent_id = tm.id
+        <where>
+            m.status != 9
+        </where>
+        order by m.id desc
+    </select>
+    <insert id="add" keyProperty="id" parameterType="com.unisguard.webapi.common.dataobject.menu.MenuDO"
+            useGeneratedKeys="true">
+        insert into t_menu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="tag != null">
+                tag,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="url != null">
+                url,
+            </if>
+            <if test="icon != null">
+                icon,
+            </if>
+            <if test="openWin != null">
+                open_win,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="level != null">
+                level,
+            </if>
+            <if test="parentId != null">
+                parent_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="tag != null">
+                #{tag,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="url != null">
+                #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="icon != null">
+                #{icon,jdbcType=VARCHAR},
+            </if>
+            <if test="openWin != null">
+                #{openWin,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="level != null">
+                #{level,jdbcType=INTEGER},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+    <select id="detail" parameterType="java.lang.Long" resultMap="resultMap">
+    select m.id,m.name,m.type,m.tag,m.sort,m.url,m.icon,m.open_win,m.status,m.level,m.parent_id,tm.name as parent_name
+    from t_menu m left join t_menu tm on tm.id = m.parent_id
+    where m.id = #{id}
+  </select>
+    <update id="edit" parameterType="com.unisguard.webapi.common.dataobject.menu.MenuDO">
+        update t_menu
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="tag != null">
+                tag = #{tag,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="url != null">
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="icon != null">
+                icon = #{icon,jdbcType=VARCHAR},
+            </if>
+            <if test="openWin != null">
+                open_win = #{openWin,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="level != null">
+                level = #{level,jdbcType=INTEGER},
+            </if>
+            <if test="parentId != null">
+                parent_id = #{parentId,jdbcType=BIGINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="delete" parameterType="java.lang.Long">
+    update  t_menu set status = 9 where id = #{id}
+  </update>
+    <select id="queryListByRoleId" parameterType="java.lang.Long" resultMap="resultMap">
+    select m.id,m.name,m.type,m.tag,m.sort,m.url,m.icon,m.open_win,m.status,m.level,m.parent_id,tm.name as parent_name
+    from t_menu m left join t_menu tm on m.parent_id = tm.id where m.status !=9 and m.id in(select menu_id from t_role_menu where role_id = #{roleId}
+    )
+    order by m.id desc
+  </select>
+
+    <select id="queryListByRoleIds" parameterType="java.util.List" resultMap="resultMap">
+        select id,name,type,tag,sort,url,icon,open_win,status,level,parent_id
+        from t_menu where status !=9 and id in(select menu_id from t_role_menu where role_id in
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        )
+        order by id desc
+    </select>
+
+    <select id="queryListByUserId" parameterType="java.lang.Long" resultMap="resultMap">
+    select a.id,a.name,a.type,a.tag,a.sort,a.url,a.icon,a.open_win,a.status,a.level,a.parent_id
+    from t_menu a
+    inner join t_role_menu b on a.id = b.menu_id
+	inner join t_role c on b.role_id = c.id
+    inner join t_user_role d on c.id = d.role_id
+	inner join t_user e on d.user_id = e.id
+    where e.id = #{userId} and a.status = 1 and c.status = 1 and e.status = 1
+  </select>
+
+    <select id="checkTag" parameterType="java.lang.String" resultMap="resultMap">
+    select m.id,m.name,m.type,m.tag,m.sort,m.url,m.icon,m.open_win,m.status,m.level,m.parent_id
+    from t_menu m
+    where
+      m.status !=9
+      and m.tag = #{rag}
+  </select>
+
+    <select id="checkUrl" parameterType="java.lang.String" resultMap="resultMap">
+    select m.id,m.name,m.type,m.tag,m.sort,m.url,m.icon,m.open_win,m.status,m.level,m.parent_id
+    from t_menu m
+    where
+      m.status !=9
+      and m.url = #{url}
+  </select>
+
+    <update id="updateStatus" parameterType="com.unisguard.webapi.common.dataobject.menu.MenuDO">
+        update t_menu
+        <set>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="queryChildrenList" parameterType="java.lang.Long" resultMap="resultMap">
+    select id,name,type,tag,sort,url,icon,open_win,status,level,parent_id
+    from t_menu
+    where parent_id = #{id} and status != 9
+  </select>
+
+    <update id="batchUpdateStatus" parameterType="java.lang.Long">
+        update t_menu set status = 2 where id in
+        <foreach collection='list' item='id' open="(" close=")" separator=','>
+            #{id}
+        </foreach>
+    </update>
+</mapper>

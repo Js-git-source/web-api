@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+      status: 用来指定log4j本身的打印日志的级别。
+      monitorinterval: 用于指定log4j自动重新配置的监测间隔时间，单位是s,最小是5s
+\-->
+<configuration status="warn" monitorInterval="30">
+    <properties>
+        <!-- 日志文件路径 -->
+        <property name="log.path">/home/unisguard/web-api-logs</property>
+        <!-- 系统管理日志路径 -->
+        <property name="sys">sys</property>
+    </properties>
+    <!--先定义所有的appender-->
+    <appenders>
+        <!--这个输出控制台的配置-->
+        <console name="console" target="SYSTEM_OUT">
+            <!--输出日志的格式-->
+            <PatternLayout pattern="[%p] [%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] %l - %msg%n"/>
+        </console>
+        <!-- 系统管理日志 -->
+        <RollingFile name="${sys}" fileName="${log.path}/${sys}/${sys}.log"
+                     filePattern="${log.path}/${sys}/%d{yyyy-MM-dd}-%i.log">
+            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="[%logger] [%-5level] [%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] %l - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+                <SizeBasedTriggeringPolicy/>
+            </Policies>
+            <DefaultRolloverStrategy max="30">
+                <Delete basePath="${log.path}/${sys}" maxDepth="2">
+                    <IfFileName glob="*.log"/>
+                    <IfLastModified age="30d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+    </appenders>
+    <loggers>
+        <!-- 系统管理日志 -->
+        <logger name="${sys}" additivity="false">
+            <appender-ref ref="console"/>
+            <appender-ref ref="${sys}"/>
+        </logger>
+        <root>
+            <appender-ref ref="console"/>
+        </root>
+    </loggers>
+</configuration>

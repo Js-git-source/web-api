@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.unisguard.webapi.mapper.weakpass.WeakPassMapper">
+  <resultMap id="resultMap" type="com.unisguard.webapi.common.dataobject.weakpass.WeakPassDO">
+    <id column="id" property="id" />
+    <result column="pass" property="pass" />
+  </resultMap>
+  <select id="list" parameterType="com.unisguard.webapi.common.dataobject.weakpass.WeakPassDO" resultMap="resultMap">
+    select id,pass
+    from t_weak_pass
+    <where>
+      <if test="id != null">
+        and id = #{id}
+      </if>
+      <if test="pass != null">
+        and pass = #{pass}
+      </if>
+    </where>
+  </select>
+  <insert id="add" keyProperty="id" parameterType="com.unisguard.webapi.common.dataobject.weakpass.WeakPassDO" useGeneratedKeys="true">
+    insert into t_weak_pass
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="pass != null">
+        pass,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="pass != null">
+        #{pass,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="detail" parameterType="java.lang.Long" resultMap="resultMap">
+    select id,pass
+    from t_weak_pass
+    where id = #{id}
+  </select>
+  <update id="edit" parameterType="com.unisguard.webapi.common.dataobject.weakpass.WeakPassDO">
+     update t_weak_pass
+    <set>
+      <if test="pass != null">
+        pass = #{pass,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <delete id="delete" parameterType="java.lang.Long">
+    delete from t_weak_pass where id = #{id}
+  </delete>
+</mapper>

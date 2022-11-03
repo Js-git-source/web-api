@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.unisguard.webapi.mapper.user.UserMapper">
+    <resultMap id="resultMap" type="com.unisguard.webapi.common.dataobject.user.UserDO">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="account" property="account"/>
+        <result column="password" property="password"/>
+        <result column="dept_id" property="deptId"/>
+        <result column="title" property="title"/>
+        <result column="type" property="type"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="status" property="status"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="update_user_id" property="updateUserId"/>
+        <result column="update_user_name" property="updateUserName"/>
+        <result column="failure_count" property="failureCount"/>
+        <result column="failure_first_time" property="failureFirstTime"/>
+        <result column="failure_finish_time" property="failureFinishTime"/>
+        <result column="description" property="description"/>
+        <result column="dept_name" property="deptName"/>
+        <result column="first_login" property="firstLogin"/>
+    </resultMap>
+
+    <resultMap id="resultExcelMap" type="com.unisguard.webapi.common.dataobject.user.UserExcelDO">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="account" property="account"/>
+        <result column="dept_id" property="deptId"/>
+        <result column="title" property="title"/>
+        <result column="type" property="type"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="status" property="status"/>
+        <result column="description" property="description"/>
+        <result column="dept_name" property="deptName"/>
+    </resultMap>
+
+    <select id="list" parameterType="com.unisguard.webapi.common.dataobject.user.UserDO" resultMap="resultMap">
+        select u.id,u.name,u.account,u.dept_id,u.title,
+        u.type,case when u.phone = 0 then null ELSE u.phone end as
+        phone,u.email,u.status,u.update_time,u.update_user_id,
+        u.description,d.path as dept_name
+        from t_user u left join t_dept d on u.dept_id = d.id
+        <where>
+            u.status != 9
+            <if test="id != null">
+                and u.id = #{id}
+            </if>
+            <if test="name != null and name !=''">
+                and u.name like concat('%',#{name},'%')
+            </if>
+            <if test="account != null and account !=''">
+                and u.account like concat('%',#{account},'%')
+            </if>
+
+            <if test="deptIdList != null">
+                and u.dept_id in
+                <foreach collection="deptIdList" index="index" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="title != null and title != ''">
+                and u.title like concat('%',#{title},'%')
+            </if>
+            <if test="type != null and type != 0">
+                and u.type = #{type}
+            </if>
+            <if test="phone != null and phone != ''">
+                and u.phone = #{phone}
+            </if>
+            <if test="email != null and email != ''">
+                and u.email like concat('%',#{email},'%')
+            </if>
+            <if test="status != null and status != 0">
+                and u.status = #{status}
+            </if>
+        </where>
+        order by u.id desc
+    </select>
+    <insert id="add" keyProperty="id" parameterType="com.unisguard.webapi.common.dataobject.user.UserDO"
+            useGeneratedKeys="true">
+        insert into t_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="account != null">
+                account,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="deptId != null">
+                dept_id,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="updateUserId != null">
+                update_user_id,
+            </if>
+            <if test="failureCount != null">
+                failure_count,
+            </if>
+            <if test="failureFirstTime != null">
+                failure_first_time,
+            </if>
+            <if test="failureFinishTime != null">
+                failure_finish_time,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="firstLogin != null">
+                first_login,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="account != null">
+                #{account,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="deptId != null">
+                #{deptId,jdbcType=BIGINT},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=BIGINT},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserId != null">
+                #{updateUserId,jdbcType=BIGINT},
+            </if>
+            <if test="failureCount != null">
+                #{failureCount,jdbcType=INTEGER},
+            </if>
+            <if test="failureFirstTime != null">
+                #{failureFirstTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="failureFinishTime != null">
+                #{failureFinishTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="firstLogin != null">
+                #{firstLogin,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <select id="detail" parameterType="java.lang.Long" resultMap="resultMap">
+    select u.id,u.name,u.account,u.dept_id,u.title,u.type,CASE u.phone WHEN 0 THEN null ELSE u.phone END as phone ,u.email,u.status,u.update_time,
+           u.update_user_id,u.failure_count,u.failure_first_time,u.failure_finish_time,u.description,
+           tu.name as update_user_name,d.path as dept_name
+    from t_user u left join t_user tu on u.update_user_id = tu.id
+        left join t_dept d on u.dept_id = d.id
+    where u.id = #{id}
+  </select>
+
+    <select id="info" parameterType="java.lang.Long" resultMap="resultMap">
+        select u.id,u.name,u.account,u.dept_id,u.title,u.type,CASE u.phone WHEN 0 THEN null ELSE u.phone END as phone ,u.email,u.status,u.update_time,
+               u.update_user_id,u.failure_count,u.failure_first_time,u.failure_finish_time,u.description,u.password,
+               tu.name as update_user_name,d.path as dept_name
+        from t_user u left join t_user tu on u.update_user_id = tu.id
+                      left join t_dept d on u.dept_id = d.id
+        where u.id = #{id}
+    </select>
+    <update id="edit" parameterType="com.unisguard.webapi.common.dataobject.user.UserDO">
+        update t_user
+        <set>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="account != null">
+                account = #{account,jdbcType=VARCHAR},
+            </if>
+            <if test="deptId != null">
+                dept_id = #{deptId,jdbcType=BIGINT},
+            </if>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=BIGINT},
+            </if>
+            <if test="phone == null">
+                phone = 0,
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="updateUserId != null">
+                update_user_id = #{updateUserId,jdbcType=BIGINT},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="delete" parameterType="java.lang.Long">
+    update t_user
+    set
+      status = 9
+    where id = #{id}
+  </update>
+    <select id="queryListByParam" parameterType="com.unisguard.webapi.common.dataobject.user.UserParamDO"
+            resultMap="resultMap">
+        select u.id,u.name,u.account,u.dept_id,u.title,u.type,case when u.phone = 0 then null ELSE u.phone end as
+        phone,u.email,u.status,
+        u.update_time,u.update_user_id,u.description,d.path as dept_name
+        from t_user u left join t_dept d on u.dept_id = d.id
+        <where>
+            u.status != 9
+            <if test="roleId != null and roleId !=0">
+                and u.id in (
+                select user_id from t_user_role where role_id = #{roleId}
+                )
+            </if>
+            <if test="groupId != null and groupId !=0">
+                and u.id in (
+                select user_id from t_group_user where group_id = #{groupId}
+                )
+            </if>
+
+            <if test="nameOrAccount != null and nameOrAccount !=''">
+                and (u.name like concat('%',#{nameOrAccount},'%') or u.account like concat('%',#{nameOrAccount},'%'))
+            </if>
+
+            <if test="deptOrTitle != null and deptOrTitle !=''">
+                and (u.title like concat('%',#{deptOrTitle},'%') or d.name like concat('%',#{deptOrTitle},'%'))
+            </if>
+            <if test="deptIdList != null">
+                and u.dept_id in
+                <foreach collection="deptIdList" index="index" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="userIdList != null">
+                and u.id not in
+                <foreach collection="userIdList" index="index" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+        order by u.id desc
+    </select>
+
+    <select id="queryListUserRole" parameterType="com.unisguard.webapi.common.dataobject.user.UserDO"
+            resultMap="resultMap">
+        select u.id,u.name,u.account,u.dept_id,u.title,u.type,
+        case when u.phone = 0 then null ELSE u.phone end as phone,u.email,u.status,u.update_time,u.update_user_id,
+        u.failure_count,u.failure_first_time,u.failure_finish_time,u.description,
+        r.id as r_id,r.name as r_name,r.type as r_type, r.status as r_status
+        from t_user u ,t_user_role ur,t_role r
+        where u.id = ur.user_id and r.id = ur.role_id
+        and u.status != 9
+        <if test="id != null">
+            and u.id = #{id}
+        </if>
+        <if test="name != null">
+            and u.name = #{name}
+        </if>
+        <if test="account != null">
+            and u.account = #{account}
+        </if>
+        <if test="password != null">
+            and u.password = #{password}
+        </if>
+        <if test="deptId != null">
+            and u.dept_id = #{deptId}
+        </if>
+        <if test="title != null">
+            and u.title = #{title}
+        </if>
+        <if test="type != null">
+            and u.type = #{type}
+        </if>
+        <if test="phone != null">
+            and u.phone = #{phone}
+        </if>
+        <if test="email != null">
+            and u.email = #{email}
+        </if>
+        <if test="status != null">
+            and u.status = #{status}
+        </if>
+        <if test="updateTime != null">
+            and u.update_time = #{updateTime}
+        </if>
+        <if test="updateUserId != null">
+            and u.update_user_id = #{updateUserId}
+        </if>
+        <if test="description != null">
+            and u.description = #{description}
+        </if>
+        order by u.id desc
+    </select>
+
+    <select id="queryListUserGroup" parameterType="com.unisguard.webapi.common.dataobject.user.UserDO"
+            resultMap="resultMap">
+        select u.id,u.name,u.account,u.dept_id,u.title,u.type,
+        case when u.phone = 0 then null ELSE u.phone end as phone,u.email,u.status,u.update_time,u.update_user_id,
+        u.failure_count,u.failure_first_time,u.failure_finish_time,u.description,
+        g.id as g_id,g.name as g_name,g.pid as g_pid,g.mgr_id as g_mgr_id
+        from t_user u ,t_group g,t_group_user gu
+        where u.id = gu.user_id and g.id = gu.group_id and u.status != 9
+        <if test="id != null">
+            and u.id = #{id}
+        </if>
+        <if test="name != null">
+            and u.name = #{name}
+        </if>
+        <if test="account != null">
+            and u.account = #{account}
+        </if>
+        <if test="password != null">
+            and u.password = #{password}
+        </if>
+        <if test="deptId != null">
+            and u.dept_id = #{deptId}
+        </if>
+        <if test="title != null">
+            and u.title = #{title}
+        </if>
+        <if test="type != null">
+            and u.type = #{type}
+        </if>
+        <if test="phone != null">
+            and u.phone = #{phone}
+        </if>
+        <if test="email != null">
+            and u.email = #{email}
+        </if>
+        <if test="status != null">
+            and u.status = #{status}
+        </if>
+        <if test="updateTime != null">
+            and u.update_time = #{updateTime}
+        </if>
+        <if test="updateUserId != null">
+            and u.update_user_id = #{updateUserId}
+        </if>
+        <if test="description != null">
+            and u.description = #{description}
+        </if>
+        order by u.id desc``
+    </select>
+    <select id="login" parameterType="java.lang.String" resultMap="resultMap">
+    select id,name,account,password,dept_id,title,type,phone,email,status,update_time,update_user_id,failure_count,failure_first_time,failure_finish_time,description,first_login
+    from t_user
+    where account = #{account} and status != 9
+  </select>
+    <update id="updateFailureCount" parameterType="com.unisguard.webapi.common.dataobject.user.UserDO">
+        update t_user
+        <set>
+            <if test="failureCount != null">
+                failure_count = #{failureCount,jdbcType=INTEGER},
+            </if>
+            <if test="failureFirstTime != null">
+                failure_first_time = #{failureFirstTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="failureFinishTime != null">
+                failure_finish_time = #{failureFinishTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="queryExcelList" parameterType="com.unisguard.webapi.common.dataobject.user.UserDO"
+            resultMap="resultExcelMap">
+        select u.id,u.name,u.account,u.dept_id,u.title,
+        u.type,case when u.phone = 0 then null ELSE u.phone end as phone,u.email,when
+        u.status,u.update_time,u.update_user_id,
+        u.description,d.path as dept_name
+        from t_user u left join t_dept d on u.dept_id = d.id
+        <where>
+            u.status != 9
+            <if test="id != null">
+                and u.id = #{id}
+            </if>
+            <if test="name != null">
+                and u.name like concat('%',#{name},'%')
+            </if>
+            <if test="account != null">
+                and u.account like concat('%',#{account},'%')
+            </if>
+
+            <if test="deptIdList != null">
+                and u.dept_id in
+                <foreach collection="deptIdList" index="index" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="title != null">
+                and u.title like concat('%',#{title},'%'
+            </if>
+            <if test="type != null">
+                and u.type = #{type}
+            </if>
+            <if test="phone != null">
+                and u.phone = #{phone}
+            </if>
+            <if test="email != null">
+                and u.email = #{email}
+            </if>
+            <if test="status != null">
+                and u.status = #{status}
+            </if>
+        </where>
+        order by u.id desc
+    </select>
+
+    <update id="deleteBatch" parameterType="java.util.List">
+        update t_user set status = 9
+        where id in
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <select id="checkUserName" parameterType="java.lang.String" resultMap="resultMap">
+    select id,name,account,dept_id,title,type,phone,email,status,update_time,update_user_id,failure_count,failure_first_time,failure_finish_time,description
+    from t_user
+    where
+    status != 9
+    and name = #{name}
+  </select>
+
+    <select id="checkUserAccount" parameterType="java.lang.String" resultMap="resultMap">
+        select id,name,account,dept_id,title,type,phone,email,status,update_time,update_user_id,failure_count,failure_first_time,failure_finish_time,description
+        from t_user
+        where
+            status != 9
+    and account = #{account}
+    </select>
+
+    <update id="updateStatus" parameterType="com.unisguard.webapi.common.dataobject.user.UserDO">
+        update t_user
+        <set>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserId != null">
+                update_user_id = #{updateUserId,jdbcType=BIGINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateDeptId">
+       update t_user set dept_id = #{newDeptId} where dept_id = #{oldDeptId}
+    </update>
+    <select id="password" parameterType="java.lang.Long" resultType="java.lang.String">
+    select password from t_user where id = #{id}
+  </select>
+
+    <update id="resetPassword" parameterType="com.unisguard.webapi.common.dataobject.user.UserDO">
+        update t_user
+        <set>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateFirstLogin" parameterType="java.lang.Long">
+        update t_user set first_login = 1 where id = #{id}
+    </update>
+
+    <select id="getUserId" parameterType="java.lang.String" resultType="java.lang.Long">
+        select id
+        from t_user t
+        where t.status != 9 and (t.`name` LIKE concat('%',#{userName},'%') OR t.account LIKE concat('%',#{userName},'%'))
+    </select>
+</mapper>

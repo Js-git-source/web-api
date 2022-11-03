@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    druid:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://192.168.60.113:3306/base?useUnicode=true&amp;characterEncoding=utf-8
+      username: root
+      password: ngSOC#1234
+  servlet:
+    multipart:
+      enabled: true #开启文件上传
+      #      file-size-threshold: 0
+      max-file-size: 300MB #单个数据的大小
+      max-request-size: 300MB #总数据的大小
+mybatis:
+  mapper-locations: classpath:mappers/*.xml
+
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+upload:
+  upgrade:
+    path: /home/unisguard/upgrade/
+    api: https://192.168.60.115:16500/unisguard/api/cli/mainUpgrade
+  logo:
+    # 配置管理/系统配置管理/系统信息配置/LOGO上传地址  例如：D:\unisguard\uploadlogopath\
+    path: /home/unisguard/uploadlogopath/

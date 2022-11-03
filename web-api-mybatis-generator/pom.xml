@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>web-api</artifactId>
+        <groupId>com.unisguard</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>web-api-mybatis-generator</artifactId>
+    <properties>
+        <jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
+        <jdbc.url>jdbc:mysql://192.168.60.113:3306/base?useUnicode=true&amp;characterEncoding=utf-8</jdbc.url>
+        <jdbc.username>root</jdbc.username>
+        <jdbc.password>ngSOC#1234</jdbc.password>
+        <base.dir>deploy</base.dir>
+        <!-- model -->
+        <mybatis.model.dir>${project.basedir}/../web-api-common/src/main/java</mybatis.model.dir>
+        <mybatis.model.package>com.unisguard.webapi.common.dataobject.${base.dir}</mybatis.model.package>
+        <!-- mapper -->
+        <mybatis.mapper.dir>${project.basedir}/../web-api-mapper/src/main/java</mybatis.mapper.dir>
+        <mybatis.mapper.package>com.unisguard.webapi.mapper.${base.dir}</mybatis.mapper.package>
+        <!-- sql -->
+        <mybatis.sql.dir>${project.basedir}/../web-api-mapper/src/main/resources</mybatis.sql.dir>
+        <mybatis.sql.package>/mappers</mybatis.sql.package>
+        <!-- manage -->
+        <mybatis.manage.dir>${project.basedir}/../web-api-manage/src/main/java</mybatis.manage.dir>
+        <mybatis.manage.package>com.unisguard.webapi.manage.${base.dir}</mybatis.manage.package>
+        <!-- manage.impl -->
+        <mybatis.manage.impl.dir>${project.basedir}/../web-api-manage/src/main/java</mybatis.manage.impl.dir>
+        <mybatis.manage.impl.package>com.unisguard.webapi.manage.${base.dir}.impl</mybatis.manage.impl.package>
+        <!-- service -->
+        <mybatis.service.dir>${project.basedir}/../web-api-service/src/main/java</mybatis.service.dir>
+        <mybatis.service.package>com.unisguard.webapi.service.${base.dir}</mybatis.service.package>
+        <!-- service.impl -->
+        <mybatis.service.impl.dir>${project.basedir}/../web-api-service/src/main/java</mybatis.service.impl.dir>
+        <mybatis.service.impl.package>com.unisguard.webapi.service.${base.dir}.impl</mybatis.service.impl.package>
+        <!-- controller -->
+        <mybatis.controller.dir>${project.basedir}/../web-api-controller/src/main/java</mybatis.controller.dir>
+        <mybatis.controller.package>com.unisguard.webapi.controller.${base.dir}</mybatis.controller.package>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.unisguard</groupId>
+            <artifactId>web-api-mybatis-plugin</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-maven-plugin</artifactId>
+                <version>1.4.0</version>
+                <configuration>
+                    <configurationFile>src/main/resources/mybatisGenConfig.xml</configurationFile>
+                    <verbose>true</verbose>
+                    <overwrite>true</overwrite>
+                    <tableNames/>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.unisguard</groupId>
+                        <artifactId>web-api-mybatis-plugin</artifactId>
+                        <version>1.0-SNAPSHOT</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>5.1.48</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

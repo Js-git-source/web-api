@@ -1,0 +1,1078 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.unisguard.webapi.mapper.mon.MonHisMapper">
+    <resultMap id="resultMap" type="com.unisguard.webapi.common.dataobject.mon.MonHisDO">
+        <id column="id" property="id" />
+        <result column="category" property="category" />
+        <result column="type" property="type" />
+        <result column="quota" property="quota" />
+        <result column="ip" property="ip" />
+        <result column="cpu_rate" property="cpuRate" />
+        <result column="gc_rate" property="gcRate" />
+        <result column="mem_use" property="memUse" />
+        <result column="mem_local" property="memLocal" />
+        <result column="mem_rate" property="memRate" />
+        <result column="mem_frag" property="memFrag" />
+        <result column="thread_cnt" property="threadCnt" />
+        <result column="session_new" property="sessionNew" />
+        <result column="session_cache" property="sessionCache" />
+        <result column="session_active" property="sessionActive" />
+        <result column="session_cnt" property="sessionCnt" />
+        <result column="iops" property="iops" />
+        <result column="qps" property="qps" />
+        <result column="tps" property="tps" />
+        <result column="io_read" property="ioRead" />
+        <result column="io_write" property="ioWrite" />
+        <result column="client_cnt" property="clientCnt" />
+        <result column="slave_cnt" property="slaveCnt" />
+        <result column="key_cnt" property="keyCnt" />
+        <result column="io_fetch" property="ioFetch" />
+        <result column="io_merge" property="ioMerge" />
+        <result column="topic" property="topic" />
+        <result column="group_id" property="groupId" />
+        <result column="lag_total" property="lagTotal" />
+        <result column="produce_speed" property="produceSpeed" />
+        <result column="consume_speed" property="consumeSpeed" />
+        <result column="rate" property="rate" />
+        <result column="lag_day" property="lagDay" />
+        <result column="net_inter" property="netInter" />
+        <result column="update_time" property="updateTime" />
+        <result column="net_inter_cnt" property="netInterCnt" />
+        <result column="disk_json" property="diskJson" />
+        <result column="sys_load" property="sysLoad" />
+        <result column="sys_load5" property="sysLoad5" />
+        <result column="sys_load15" property="sysLoad15" />
+    </resultMap>
+    <select id="list" parameterType="com.unisguard.webapi.common.dataobject.mon.MonHisDO" resultMap="resultMap">
+        select id,category,type,quota,ip,cpu_rate,gc_rate,mem_use,mem_local,mem_rate,mem_frag,thread_cnt,session_new,session_cache,session_active,session_cnt,iops,qps,tps,io_read,io_write,client_cnt,slave_cnt,key_cnt,io_fetch,io_merge,topic,group_id,lag_total,produce_speed,consume_speed,rate,lag_day,net_inter,update_time,net_inter_cnt,disk_json
+        from t_mon_his
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="category != null">
+                and category = #{category}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="quota != null">
+                and  quota = #{quota}
+            </if>
+            <if test="ip != null">
+                and ip = #{ip}
+            </if>
+            <if test="cpuRate != null">
+                and cpu_rate = #{cpuRate}
+            </if>
+            <if test="gcRate != null">
+                and gc_rate = #{gcRate}
+            </if>
+            <if test="memUse != null">
+                and mem_use = #{memUse}
+            </if>
+            <if test="memLocal != null">
+                and  mem_local = #{memLocal}
+            </if>
+            <if test="memRate != null">
+                and mem_rate = #{memRate}
+            </if>
+            <if test="memFrag != null">
+                and mem_frag = #{memFrag}
+            </if>
+            <if test="threadCnt != null">
+                and thread_cnt = #{threadCnt}
+            </if>
+            <if test="sessionNew != null">
+                and session_new = #{sessionNew}
+            </if>
+            <if test="sessionCache != null">
+                and  session_cache = #{sessionCache}
+            </if>
+            <if test="sessionActive != null">
+                and session_active = #{sessionActive}
+            </if>
+            <if test="sessionCnt != null">
+                and session_cnt = #{sessionCnt}
+            </if>
+            <if test="iops != null">
+                and  iops = #{iops}
+            </if>
+            <if test="qps != null">
+                and  qps = #{qps}
+            </if>
+            <if test="tps != null">
+                and tps = #{tps}
+            </if>
+            <if test="ioRead != null">
+                and  io_read = #{ioRead}
+            </if>
+            <if test="ioWrite != null">
+                and io_write = #{ioWrite}
+            </if>
+            <if test="clientCnt != null">
+                and  client_cnt = #{clientCnt}
+            </if>
+            <if test="slaveCnt != null">
+                slave_cnt = #{slaveCnt}
+            </if>
+            <if test="keyCnt != null">
+                and  key_cnt = #{keyCnt}
+            </if>
+            <if test="ioFetch != null">
+                and io_fetch = #{ioFetch}
+            </if>
+            <if test="ioMerge != null">
+                and io_merge = #{ioMerge}
+            </if>
+            <if test="topic != null">
+                and topic = #{topic}
+            </if>
+            <if test="groupId != null">
+                and group_id = #{groupId}
+            </if>
+            <if test="lagTotal != null">
+                and lag_total = #{lagTotal}
+            </if>
+            <if test="produceSpeed != null">
+                and produce_speed = #{produceSpeed}
+            </if>
+            <if test="consumeSpeed != null">
+                and consume_speed = #{consumeSpeed}
+            </if>
+            <if test="rate != null">
+                and rate = #{rate}
+            </if>
+            <if test="lagDay != null">
+                and lag_day = #{lagDay}
+            </if>
+            <if test="netInter != null">
+                and net_inter = #{netInter}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="netInterCnt != null">
+                and  net_inter_cnt = #{netInterCnt}
+            </if>
+            <if test="diskJson != null">
+                and disk_json = #{diskJson}
+            </if>
+        </where>
+    </select>
+    <insert id="add" keyProperty="id" parameterType="com.unisguard.webapi.common.dataobject.mon.MonHisDO" useGeneratedKeys="true">
+        insert into t_mon_his
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="category != null">
+                category,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="quota != null">
+                quota,
+            </if>
+            <if test="ip != null">
+                ip,
+            </if>
+            <if test="cpuRate != null">
+                cpu_rate,
+            </if>
+            <if test="gcRate != null">
+                gc_rate,
+            </if>
+            <if test="memUse != null">
+                mem_use,
+            </if>
+            <if test="memLocal != null">
+                mem_local,
+            </if>
+            <if test="memRate != null">
+                mem_rate,
+            </if>
+            <if test="memFrag != null">
+                mem_frag,
+            </if>
+            <if test="threadCnt != null">
+                thread_cnt,
+            </if>
+            <if test="sessionNew != null">
+                session_new,
+            </if>
+            <if test="sessionCache != null">
+                session_cache,
+            </if>
+            <if test="sessionActive != null">
+                session_active,
+            </if>
+            <if test="sessionCnt != null">
+                session_cnt,
+            </if>
+            <if test="iops != null">
+                iops,
+            </if>
+            <if test="qps != null">
+                qps,
+            </if>
+            <if test="tps != null">
+                tps,
+            </if>
+            <if test="ioRead != null">
+                io_read,
+            </if>
+            <if test="ioWrite != null">
+                io_write,
+            </if>
+            <if test="clientCnt != null">
+                client_cnt,
+            </if>
+            <if test="slaveCnt != null">
+                slave_cnt,
+            </if>
+            <if test="keyCnt != null">
+                key_cnt,
+            </if>
+            <if test="ioFetch != null">
+                io_fetch,
+            </if>
+            <if test="ioMerge != null">
+                io_merge,
+            </if>
+            <if test="topic != null">
+                topic,
+            </if>
+            <if test="groupId != null">
+                group_id,
+            </if>
+            <if test="lagTotal != null">
+                lag_total,
+            </if>
+            <if test="produceSpeed != null">
+                produce_speed,
+            </if>
+            <if test="consumeSpeed != null">
+                consume_speed,
+            </if>
+            <if test="rate != null">
+                rate,
+            </if>
+            <if test="lagDay != null">
+                lag_day,
+            </if>
+            <if test="netInter != null">
+                net_inter,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="netInterCnt != null">
+                net_inter_cnt,
+            </if>
+            <if test="diskJson != null">
+                disk_json,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="category != null">
+                #{category,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="quota != null">
+                #{quota,jdbcType=INTEGER},
+            </if>
+            <if test="ip != null">
+                #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="cpuRate != null">
+                #{cpuRate,jdbcType=INTEGER},
+            </if>
+            <if test="gcRate != null">
+                #{gcRate,jdbcType=INTEGER},
+            </if>
+            <if test="memUse != null">
+                #{memUse,jdbcType=BIGINT},
+            </if>
+            <if test="memLocal != null">
+                #{memLocal,jdbcType=BIGINT},
+            </if>
+            <if test="memRate != null">
+                #{memRate,jdbcType=INTEGER},
+            </if>
+            <if test="memFrag != null">
+                #{memFrag,jdbcType=BIGINT},
+            </if>
+            <if test="threadCnt != null">
+                #{threadCnt,jdbcType=INTEGER},
+            </if>
+            <if test="sessionNew != null">
+                #{sessionNew,jdbcType=INTEGER},
+            </if>
+            <if test="sessionCache != null">
+                #{sessionCache,jdbcType=INTEGER},
+            </if>
+            <if test="sessionActive != null">
+                #{sessionActive,jdbcType=INTEGER},
+            </if>
+            <if test="sessionCnt != null">
+                #{sessionCnt,jdbcType=INTEGER},
+            </if>
+            <if test="iops != null">
+                #{iops,jdbcType=INTEGER},
+            </if>
+            <if test="qps != null">
+                #{qps,jdbcType=INTEGER},
+            </if>
+            <if test="tps != null">
+                #{tps,jdbcType=INTEGER},
+            </if>
+            <if test="ioRead != null">
+                #{ioRead,jdbcType=BIGINT},
+            </if>
+            <if test="ioWrite != null">
+                #{ioWrite,jdbcType=BIGINT},
+            </if>
+            <if test="clientCnt != null">
+                #{clientCnt,jdbcType=INTEGER},
+            </if>
+            <if test="slaveCnt != null">
+                #{slaveCnt,jdbcType=INTEGER},
+            </if>
+            <if test="keyCnt != null">
+                #{keyCnt,jdbcType=INTEGER},
+            </if>
+            <if test="ioFetch != null">
+                #{ioFetch,jdbcType=BIGINT},
+            </if>
+            <if test="ioMerge != null">
+                #{ioMerge,jdbcType=BIGINT},
+            </if>
+            <if test="topic != null">
+                #{topic,jdbcType=VARCHAR},
+            </if>
+            <if test="groupId != null">
+                #{groupId,jdbcType=VARCHAR},
+            </if>
+            <if test="lagTotal != null">
+                #{lagTotal,jdbcType=BIGINT},
+            </if>
+            <if test="produceSpeed != null">
+                #{produceSpeed,jdbcType=BIGINT},
+            </if>
+            <if test="consumeSpeed != null">
+                #{consumeSpeed,jdbcType=BIGINT},
+            </if>
+            <if test="rate != null">
+                #{rate,jdbcType=INTEGER},
+            </if>
+            <if test="lagDay != null">
+                #{lagDay,jdbcType=DECIMAL},
+            </if>
+            <if test="netInter != null">
+                #{netInter,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="netInterCnt != null">
+                #{netInterCnt,jdbcType=BIGINT},
+            </if>
+            <if test="diskJson != null">
+                #{diskJson,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="detail" parameterType="java.lang.Long" resultMap="resultMap">
+        select id,category,type,quota,ip,cpu_rate,gc_rate,mem_use,mem_local,mem_rate,mem_frag,thread_cnt,session_new,session_cache,session_active,session_cnt,iops,qps,tps,io_read,io_write,client_cnt,slave_cnt,key_cnt,io_fetch,io_merge,topic,group_id,lag_total,produce_speed,consume_speed,rate,lag_day,net_inter,update_time,net_inter_cnt,disk_json
+        from t_mon_his
+        where id = #{id}
+    </select>
+    <update id="edit" parameterType="com.unisguard.webapi.common.dataobject.mon.MonHisDO">
+        update t_mon_his
+        <set>
+            <if test="category != null">
+                category = #{category,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="quota != null">
+                quota = #{quota,jdbcType=INTEGER},
+            </if>
+            <if test="ip != null">
+                ip = #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="cpuRate != null">
+                cpu_rate = #{cpuRate,jdbcType=INTEGER},
+            </if>
+            <if test="gcRate != null">
+                gc_rate = #{gcRate,jdbcType=INTEGER},
+            </if>
+            <if test="memUse != null">
+                mem_use = #{memUse,jdbcType=BIGINT},
+            </if>
+            <if test="memLocal != null">
+                mem_local = #{memLocal,jdbcType=BIGINT},
+            </if>
+            <if test="memRate != null">
+                mem_rate = #{memRate,jdbcType=INTEGER},
+            </if>
+            <if test="memFrag != null">
+                mem_frag = #{memFrag,jdbcType=BIGINT},
+            </if>
+            <if test="threadCnt != null">
+                thread_cnt = #{threadCnt,jdbcType=INTEGER},
+            </if>
+            <if test="sessionNew != null">
+                session_new = #{sessionNew,jdbcType=INTEGER},
+            </if>
+            <if test="sessionCache != null">
+                session_cache = #{sessionCache,jdbcType=INTEGER},
+            </if>
+            <if test="sessionActive != null">
+                session_active = #{sessionActive,jdbcType=INTEGER},
+            </if>
+            <if test="sessionCnt != null">
+                session_cnt = #{sessionCnt,jdbcType=INTEGER},
+            </if>
+            <if test="iops != null">
+                iops = #{iops,jdbcType=INTEGER},
+            </if>
+            <if test="qps != null">
+                qps = #{qps,jdbcType=INTEGER},
+            </if>
+            <if test="tps != null">
+                tps = #{tps,jdbcType=INTEGER},
+            </if>
+            <if test="ioRead != null">
+                io_read = #{ioRead,jdbcType=BIGINT},
+            </if>
+            <if test="ioWrite != null">
+                io_write = #{ioWrite,jdbcType=BIGINT},
+            </if>
+            <if test="clientCnt != null">
+                client_cnt = #{clientCnt,jdbcType=INTEGER},
+            </if>
+            <if test="slaveCnt != null">
+                slave_cnt = #{slaveCnt,jdbcType=INTEGER},
+            </if>
+            <if test="keyCnt != null">
+                key_cnt = #{keyCnt,jdbcType=INTEGER},
+            </if>
+            <if test="ioFetch != null">
+                io_fetch = #{ioFetch,jdbcType=BIGINT},
+            </if>
+            <if test="ioMerge != null">
+                io_merge = #{ioMerge,jdbcType=BIGINT},
+            </if>
+            <if test="topic != null">
+                topic = #{topic,jdbcType=VARCHAR},
+            </if>
+            <if test="groupId != null">
+                group_id = #{groupId,jdbcType=VARCHAR},
+            </if>
+            <if test="lagTotal != null">
+                lag_total = #{lagTotal,jdbcType=BIGINT},
+            </if>
+            <if test="produceSpeed != null">
+                produce_speed = #{produceSpeed,jdbcType=BIGINT},
+            </if>
+            <if test="consumeSpeed != null">
+                consume_speed = #{consumeSpeed,jdbcType=BIGINT},
+            </if>
+            <if test="rate != null">
+                rate = #{rate,jdbcType=INTEGER},
+            </if>
+            <if test="lagDay != null">
+                lag_day = #{lagDay,jdbcType=DECIMAL},
+            </if>
+            <if test="netInter != null">
+                net_inter = #{netInter,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="netInterCnt != null">
+                net_inter_cnt = #{netInterCnt,jdbcType=BIGINT},
+            </if>
+            <if test="diskJson != null">
+                disk_json = #{diskJson,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <delete id="delete" parameterType="java.lang.Long">
+        delete from t_mon_his where id = #{id}
+    </delete>
+
+    <select id="cpu" parameterType="com.unisguard.webapi.common.dataobject.mon.MonHisDO" resultMap="resultMap">
+        select id,category,type,quota,ip,cpu_rate,gc_rate,update_time
+        from(select id,category,type,quota,ip,cpu_rate,gc_rate,update_time
+        from t_mon_his
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="category != null">
+                and category = #{category}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="quota != null">
+                and quota = #{quota}
+            </if>
+            <if test="ip != null">
+                and  ip = #{ip}
+            </if>
+            <if test="cpuRate != null">
+                and cpu_rate = #{cpuRate}
+            </if>
+            <if test="gcRate != null">
+                and  gc_rate = #{gcRate}
+            </if>
+            <if test="startTime != null">
+                and  update_time &gt; #{startTime}
+            </if>
+            <if test="endTime != null">
+                and  update_time &lt;= #{endTime}
+            </if>
+        </where>
+        order by update_time desc limit 13)m order by m.update_time asc
+    </select>
+
+    <select id="ram" parameterType="com.unisguard.webapi.common.dataobject.mon.MonHisDO" resultMap="resultMap">
+        select id,category,type,quota,ip,mem_local,mem_use,update_time
+        from(select id,category,type,quota,ip,mem_local,mem_use,update_time
+        from t_mon_his
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="category != null">
+                and category = #{category}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="quota != null">
+                and quota = #{quota}
+            </if>
+            <if test="ip != null">
+                and ip = #{ip}
+            </if>
+            <if test="memLocal != null">
+                and mem_local = #{memLocal}
+            </if>
+            <if test="memUse != null">
+                and  mem_use = #{memUse}
+            </if>
+            <if test="startTime != null">
+                and  update_time &gt; #{startTime}
+            </if>
+            <if test="endTime != null">
+                and  update_time &lt;= #{endTime}
+            </if>
+        </where>
+        order by update_time desc limit 13)m order by m.update_time asc
+    </select>
+
+    <select id="thread" parameterType="com.unisguard.webapi.common.dataobject.mon.MonHisDO" resultMap="resultMap">
+        select id,category,type,quota,ip,thread_cnt,update_time
+        from(select id,category,type,quota,ip,thread_cnt,update_time
+        from t_mon_his
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="category != null">
+                and category = #{category}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="quota != null">
+                and quota = #{quota}
+            </if>
+            <if test="ip != null">
+                and  ip = #{ip}
+            </if>
+            <if test="threadCnt != null">
+                and thread_cnt = #{threadCnt}
+            </if>
+            <if test="startTime != null">
+                and  update_time &gt; #{startTime}
+            </if>
+            <if test="endTime != null">
+                and  update_time &lt;= #{endTime}
+            </if>
+        </where>
+        order by update_time desc limit 13)m order by m.update_time asc
+    </select>
+
+    <select id="connect" parameterType="com.unisguard.webapi.common.dataobject.mon.MonHisDO" resultMap="resultMap">
+        select id,category,type,quota,ip,session_cnt,update_time
+        from(select id,category,type,quota,ip,session_cnt,update_time
+        from t_mon_his
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="category != null">
+                and category = #{category}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="quota != null">
+                and quota = #{quota}
+            </if>
+            <if test="ip != null">
+                and ip = #{ip}
+            </if>
+            <if test="sessionCnt != null">
+                and session_cnt = #{sessionCnt}
+            </if>
+            <if test="startTime != null">
+                and  update_time &gt; #{startTime}
+            </if>
+            <if test="endTime != null">
+                and  update_time &lt;= #{endTime}
+            </if>
+        </where>
+        order by update_time desc limit 13)m order by m.update_time asc
+    </select>
+
+    <select id="databaseConnect" parameterType="com.unisguard.webapi.common.dataobject.mon.MonHisDO" resultMap="resultMap">
+        select id,category,type,quota,ip,session_new,session_cnt,session_cache,session_active,update_time
+        from(select id,category,type,quota,ip,session_new,session_cnt,session_cache,session_active,update_time
+        from t_mon_his
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="category != null">
+                and category = #{category}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="quota != null">
+                and quota = #{quota}
+            </if>
+            <if test="ip != null">
+                and ip = #{ip}
+            </if>
+            <if test="startTime != null">
+                and  update_time &gt; #{startTime}
+            </if>
+            <if test="endTime != null">
+                and  update_time &lt;= #{endTime}
+            </if>
+        </where>
+        order by update_time desc limit 13)m order by m.update_time asc
+    </select>
+
+    <select id="throughput" parameterType="com.unisguard.webapi.common.dataobject.mon.MonHisDO" resultMap="resultMap">
+        select id,category,type,quota,ip,iops,qps,tps,update_time
+        from(select id,category,type,quota,ip,iops,qps,tps,update_time
+        from t_mon_his
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="category != null">
+                and  category = #{category}
+            </if>
+            <if test="type != null">
+                and  type = #{type}
+            </if>
+            <if test="quota != null">
+                and  quota = #{quota}
+            </if>
+            <if test="ip != null">
+                and  ip = #{ip}
+            </if>
+            <if test="startTime != null">
+                and  update_time &gt; #{startTime}
+            </if>
+            <if test="endTime != null">
+                and  update_time &lt;= #{endTime}
+            </if>
+        </where>
+        order by update_time desc limit 13)m order by m.update_time asc
+    </select>
+
+    <select id="io" parameterType="com.unisguard.webapi.common.dataobject.mon.MonHisDO" resultMap="resultMap">
+        select id,category,type,quota,ip,io_read,io_write,update_time
+        from(select id,category,type,quota,ip,io_read,io_write,update_time
+        from t_mon_his
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="category != null">
+                and category = #{category}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="quota != null">
+                and  quota = #{quota}
+            </if>
+            <if test="ip != null">
+                and ip = #{ip}
+            </if>
+            <if test="startTime != null">
+                and  update_time &gt; #{startTime}
+            </if>
+            <if test="endTime != null">
+                and  update_time &lt;= #{endTime}
+            </if>
+        </where>
+        order by update_time desc limit 13)m order by m.update_time asc
+    </select>
+
+    <select id="network" parameterType="com.unisguard.webapi.common.dataobject.mon.MonHisDO" resultMap="resultMap">
+        select id,category,type,quota,ip,io_read,io_write,update_time
+        from(select id,category,type,quota,ip,io_read,io_write,update_time
+        from t_mon_his
+        <where>
+            <if test="id != null">
+                and  id = #{id}
+            </if>
+            <if test="category != null">
+                and  category = #{category}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="quota != null">
+                and  quota = #{quota}
+            </if>
+            <if test="ip != null">
+                and ip = #{ip}
+            </if>
+            <if test="startTime != null">
+                and  update_time &gt; #{startTime}
+            </if>
+            <if test="endTime != null">
+                and  update_time &lt;= #{endTime}
+            </if>
+        </where>
+        order by update_time desc limit 13)m order by m.update_time asc
+    </select>
+
+    <select id="search" parameterType="com.unisguard.webapi.common.dataobject.mon.MonHisDO" resultMap="resultMap">
+        select id,category,type,quota,ip,io_read,io_fetch,io_merge,update_time
+        from(select id,category,type,quota,ip,io_read,io_fetch,io_merge,update_time
+        from t_mon_his
+        <where>
+            <if test="id != null">
+                and  id = #{id}
+            </if>
+            <if test="category != null">
+                and  category = #{category}
+            </if>
+            <if test="type != null">
+                and  type = #{type}
+            </if>
+            <if test="quota != null">
+                and quota = #{quota}
+            </if>
+            <if test="ip != null">
+                and  ip = #{ip}
+            </if>
+            <if test="startTime != null">
+                and  update_time &gt; #{startTime}
+            </if>
+            <if test="endTime != null">
+                and  update_time &lt;= #{endTime}
+            </if>
+        </where>
+        order by update_time desc limit 13)m order by m.update_time asc
+    </select>
+
+    <select id="usageCpu" parameterType="com.unisguard.webapi.common.dataobject.mon.MonHisDO" resultMap="resultMap">
+        select id,category,type,quota,ip,cpu_rate,update_time
+        from(select id,category,type,quota,ip,cpu_rate,update_time
+        from t_mon_his
+        <where>
+            <if test="id != null">
+                and  id = #{id}
+            </if>
+            <if test="category != null">
+                and category = #{category}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="quota != null">
+                and quota = #{quota}
+            </if>
+            <if test="ip != null">
+                and ip = #{ip}
+            </if>
+            <if test="startTime != null">
+                and  update_time &gt; #{startTime}
+            </if>
+            <if test="endTime != null">
+                and  update_time &lt;= #{endTime}
+            </if>
+        </where>
+        order by update_time desc limit 13)m order by m.update_time asc
+    </select>
+
+    <select id="key" parameterType="com.unisguard.webapi.common.dataobject.mon.MonHisDO" resultMap="resultMap">
+        select id,category,type,quota,ip,key_cnt,update_time
+        from(select id,category,type,quota,ip,key_cnt,update_time
+        from t_mon_his
+        <where>
+            <if test="id != null">
+                and  id = #{id}
+            </if>
+            <if test="category != null">
+                and category = #{category}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="quota != null">
+                and quota = #{quota}
+            </if>
+            <if test="ip != null">
+                and ip = #{ip}
+            </if>
+            <if test="startTime != null">
+                and  update_time &gt; #{startTime}
+            </if>
+            <if test="endTime != null">
+                and  update_time &lt;= #{endTime}
+            </if>
+        </where>
+        order by update_time desc limit 13)m order by m.update_time asc
+    </select>
+
+    <select id="usageRam" parameterType="com.unisguard.webapi.common.dataobject.mon.MonHisDO" resultMap="resultMap">
+        select id,category,type,quota,ip,mem_rate,update_time
+        from(select id,category,type,quota,ip,mem_rate,update_time
+        from t_mon_his
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="category != null">
+                and category = #{category}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="quota != null">
+                and quota = #{quota}
+            </if>
+            <if test="ip != null">
+                and ip = #{ip}
+            </if>
+            <if test="startTime != null">
+                and  update_time &gt; #{startTime}
+            </if>
+            <if test="endTime != null">
+                and  update_time &lt;= #{endTime}
+            </if>
+        </where>
+        order by update_time desc limit 13)m order by m.update_time asc
+    </select>
+
+    <select id="flow" parameterType="com.unisguard.webapi.common.dataobject.mon.MonHisDO" resultMap="resultMap">
+        select id,category,type,quota,ip,topic,group_id,lag_total,net_inter_cnt,produce_speed,consume_speed,rate,lag_day,update_time
+        from(select id,category,type,quota,ip,topic,group_id,lag_total,net_inter_cnt,produce_speed,consume_speed,rate,lag_day,update_time
+        from t_mon_his
+        <where>
+            <if test="id != null">
+                and  id = #{id}
+            </if>
+            <if test="category != null">
+                and category = #{category}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="quota != null">
+                and quota = #{quota}
+            </if>
+            <if test="ip != null">
+                and  ip = #{ip}
+            </if>
+            <if test="topic != null and topic!=''">
+                and  topic = #{topic}
+            </if>
+            <if test="groupId != null and groupId!=''">
+                and  group_id = #{groupId}
+            </if>
+            <if test="startTime != null">
+                and  update_time &gt; #{startTime}
+            </if>
+            <if test="endTime != null">
+                and  update_time &lt;= #{endTime}
+            </if>
+        </where>
+        order by update_time)m order by m.update_time asc
+    </select>
+
+    <select id="analysisUsageCpu" parameterType="com.unisguard.webapi.common.dataobject.mon.MonHisDO" resultMap="resultMap">
+        select id,category,type,quota,ip,cpu_rate,update_time
+        from(select id,category,type,quota,ip,cpu_rate,update_time
+        from t_mon_his
+        <where>
+            <if test="id != null">
+                and  id = #{id}
+            </if>
+            <if test="category != null">
+                and category = #{category}
+            </if>
+            <if test="type != null">
+                and  type = #{type}
+            </if>
+            <if test="quota != null">
+                and quota = #{quota}
+            </if>
+            <if test="ip != null">
+                and ip = #{ip}
+            </if>
+            <if test="startTime != null">
+                and  update_time &gt; #{startTime}
+            </if>
+            <if test="endTime != null">
+                and  update_time &lt;= #{endTime}
+            </if>
+        </where>
+        order by update_time desc limit 13)m order by m.update_time asc
+    </select>
+
+    <select id="analysisUsageRam" parameterType="com.unisguard.webapi.common.dataobject.mon.MonHisDO" resultMap="resultMap">
+        select id,category,type,quota,ip,mem_rate,update_time
+        from(select id,category,type,quota,ip,mem_rate,update_time
+        from t_mon_his
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="category != null">
+                and category = #{category}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="quota != null">
+                and quota = #{quota}
+            </if>
+            <if test="ip != null">
+                and ip = #{ip}
+            </if>
+            <if test="startTime != null">
+                and  update_time &gt; #{startTime}
+            </if>
+            <if test="endTime != null">
+                and  update_time &lt;= #{endTime}
+            </if>
+        </where>
+        order by update_time desc limit 13)m order by m.update_time asc
+    </select>
+
+    <select id="analysisLoad" parameterType="com.unisguard.webapi.common.dataobject.mon.MonHisDO" resultMap="resultMap">
+        select id,category,type,quota,ip,sys_load,sys_load5,sys_load15,update_time
+        from(select id,category,type,quota,ip,sys_load,sys_load5,sys_load15,update_time
+        from t_mon_his
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="category != null">
+                and  category = #{category}
+            </if>
+            <if test="type != null">
+                and  type = #{type}
+            </if>
+            <if test="quota != null">
+                and quota = #{quota}
+            </if>
+            <if test="ip != null">
+                and ip = #{ip}
+            </if>
+            <if test="startTime != null">
+                and  update_time &gt; #{startTime}
+            </if>
+            <if test="endTime != null">
+                and  update_time &lt;= #{endTime}
+            </if>
+        </where>
+        order by update_time desc limit 13)m order by m.update_time asc
+    </select>
+
+    <select id="analysisFlow" parameterType="com.unisguard.webapi.common.dataobject.mon.MonHisDO" resultMap="resultMap">
+        select id,category,type,quota,ip,net_inter,net_inter_cnt,update_time
+        from(select id,category,type,quota,ip,net_inter,net_inter_cnt,update_time
+        from t_mon_his
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="category != null">
+                and  category = #{category}
+            </if>
+            <if test="type != null">
+                and  type = #{type}
+            </if>
+            <if test="quota != null">
+                and quota = #{quota}
+            </if>
+            <if test="ip != null">
+                and ip = #{ip}
+            </if>
+            <if test="startTime != null">
+                and  update_time &gt; #{startTime}
+            </if>
+            <if test="endTime != null">
+                and  update_time &lt;= #{endTime}
+            </if>
+        </where>
+        order by update_time desc limit 13)m order by m.update_time asc
+    </select>
+
+    <select id="middlewareDetailList" parameterType="com.unisguard.webapi.common.dataobject.mon.MonHisDO" resultMap="resultMap">
+        select id,category,type,quota,ip,topic,group_id,lag_total,produce_speed,consume_speed,rate,lag_day,update_time
+        from t_mon_his
+        <where>
+            <if test="category != null and category != 0">
+                and  category = #{category}
+            </if>
+            <if test="type != null  and type != 0">
+                and  type = #{type}
+            </if>
+            <if test="quota != null  and quota != 0">
+                and quota = #{quota}
+            </if>
+            <if test="topic != null  and topic != ''">
+                and topic = #{topic}
+            </if>
+            <if test="groupId != null  and groupId != ''">
+                and group_id = #{groupId}
+            </if>
+            <if test="startTime != null">
+                and  update_time &gt; #{startTime}
+            </if>
+            <if test="endTime != null">
+                and  update_time &lt;= #{endTime}
+            </if>
+        </where>
+        order by update_time desc
+    </select>
+
+</mapper>

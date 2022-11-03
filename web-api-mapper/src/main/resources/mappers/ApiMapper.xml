@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.unisguard.webapi.mapper.api.ApiMapper">
+  <resultMap id="resultMap" type="com.unisguard.webapi.common.dataobject.api.ApiDO">
+    <id column="id" property="id" />
+    <result column="name" property="name" />
+    <result column="url" property="url" />
+    <result column="description" property="description" />
+  </resultMap>
+  <select id="list" parameterType="com.unisguard.webapi.common.dataobject.api.ApiDO" resultMap="resultMap">
+    select id,name,url,description
+    from t_api
+    <where>
+      <if test="name != null">
+        name LIKE CONCAT(CONCAT('%', #{name}), '%')
+      </if>
+      <if test="url != null">
+        AND url LIKE CONCAT(CONCAT('%', #{url}), '%')
+      </if>
+      <if test="description != null">
+        AND description = #{description}
+      </if>
+    </where>
+    ORDER BY id DESC
+  </select>
+  <select id="exist" parameterType="com.unisguard.webapi.common.dataobject.api.ApiDO" resultType="Integer">
+    select count(1)
+    from t_api
+    <where>
+      <if test="name != null">
+        name = #{name}
+      </if>
+      <if test="url != null">
+        AND url = #{url}
+      </if>
+    </where>
+  </select>
+  <insert id="add" keyProperty="id" parameterType="com.unisguard.webapi.common.dataobject.api.ApiDO" useGeneratedKeys="true">
+    insert into t_api
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="detail" parameterType="java.lang.Long" resultMap="resultMap">
+    select id,name,url,description
+    from t_api
+    where id = #{id}
+  </select>
+  <update id="edit" parameterType="com.unisguard.webapi.common.dataobject.api.ApiDO">
+     update t_api
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <delete id="delete" parameterType="java.lang.Long">
+    delete from t_api where id = #{id}
+  </delete>
+</mapper>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.unisguard.webapi.mapper.config.ConfigMapper">
+
+    <resultMap id="LicResultMap" type="com.unisguard.webapi.common.dataobject.lic.LicDO">
+        <result column="id" property="id"/>
+        <result column="auth_time" property="authTime"/>
+        <result column="auth_name" property="authName"/>
+        <result column="auth_cycle" property="authCycle"/>
+        <result column="auth_content" property="authContent"/>
+        <result column="secret_key" property="secretKey"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <select id="findLicense" resultMap="LicResultMap">
+		SELECT 
+			t1.id,
+			t1.auth_time,
+			t1.auth_name,
+			t1.auth_cycle,
+			t1.auth_content,
+			t1.secret_key,
+			t1.status
+		FROM 
+			t_lic t1 
+		where
+			t1.status=1
+	</select>
+
+
+</mapper>

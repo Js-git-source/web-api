@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.unisguard.webapi.mapper.dict.DictMapper">
+  <resultMap id="resultMap" type="com.unisguard.webapi.common.dataobject.dict.DictDO">
+    <id column="id" property="id" />
+    <result column="code_type" property="codeType" />
+    <result column="code" property="code" />
+    <result column="name" property="name" />
+    <result column="level" property="level" />
+    <result column="description" property="description" />
+  </resultMap>
+  <select id="list" parameterType="com.unisguard.webapi.common.dataobject.dict.DictDO" resultMap="resultMap">
+    select id,code_type,code,name,level,description
+    from t_dict
+    <where>
+      <if test="id != null">
+        AND id = #{id}
+      </if>
+      <if test="codeType != null">
+        AND code_type = #{codeType}
+      </if>
+      <if test="code != null">
+        AND code = #{code}
+      </if>
+      <if test="name != null and name != '' ">
+        AND name like concat('%', #{name} , '%')
+      </if>
+      <if test="level != null">
+        AND level = #{level}
+      </if>
+      <if test="description != null">
+        AND description = #{description}
+      </if>
+    </where>
+    order by level
+  </select>
+  <insert id="add" keyProperty="id" parameterType="com.unisguard.webapi.common.dataobject.dict.DictDO" useGeneratedKeys="true">
+    insert into t_dict
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="codeType != null">
+        code_type,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="codeType != null">
+        #{codeType,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="detail" parameterType="java.lang.Long" resultMap="resultMap">
+    select id,code_type,code,name,level,description
+    from t_dict
+    where id = #{id}
+  </select>
+  <update id="edit" parameterType="com.unisguard.webapi.common.dataobject.dict.DictDO">
+     update t_dict
+    <set>
+      <if test="codeType != null">
+        code_type = #{codeType,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <delete id="delete" parameterType="java.lang.Long">
+    delete from t_dict where id = #{id}
+  </delete>
+
+  <select id="exists" resultType="java.lang.Integer" parameterType="com.unisguard.webapi.common.dataobject.dict.DictDO">
+    SELECT
+    COUNT(0)
+    FROM t_dict
+    WHERE code = #{code}
+    <if test="id != null">
+      AND id != #{id}
+    </if>
+  </select>
+
+  <select id="queryNodePath" parameterType="com.unisguard.webapi.common.dataobject.dict.DictDO" resultMap="resultMap">
+    select d.id,d.code_type,d.code,d.name,d.level,d.description,dd.name as code_type_name
+    from t_dict d LEFT JOIN t_dict dd on d.`code_type`=dd.`code`
+    <where>
+      <if test="id != null">
+        AND d.id = #{id}
+      </if>
+      <if test="codeType != null">
+        AND d.code_type = #{codeType}
+      </if>
+      <if test="code != null">
+        AND d.code = #{code}
+      </if>
+      <if test="name != null and name != '' ">
+        AND d.name like concat('%', #{name} , '%')
+      </if>
+      <if test="level != null">
+        AND d.level = #{level}
+      </if>
+      <if test="description != null">
+        AND d.description = #{description}
+      </if>
+    </where>
+    order by d.level
+  </select>
+
+</mapper>

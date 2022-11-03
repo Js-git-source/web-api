@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.unisguard.webapi.mapper.upgrade.UpgradeMapper">
+    <resultMap id="resultMap" type="com.unisguard.webapi.common.dataobject.upgrade.UpgradeDO">
+        <id column="id" property="id"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="version" property="version"/>
+        <result column="path" property="path"/>
+        <result column="status" property="status"/>
+        <result column="type" property="type"/>
+        <result column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
+        <result column="account" property="account"/>
+        <result column="description" property="description"/>
+    </resultMap>
+
+
+    <select id="list" parameterType="com.unisguard.webapi.common.dataobject.upgrade.UpgradeDO" resultMap="resultMap">
+        select
+        t.id,t.update_time,t.version,t.path,t.status,t.type,t.user_id,CONCAT(t1.`name`,'(',t1.account,')') as user_name,t1.account,t.description
+        from t_upgrade t
+        LEFT JOIN t_user t1 ON t.user_id = t1.id
+        <where>
+            <if test="version != null and version != ''">
+                AND t.version = #{version}
+            </if>
+            <if test="start_date != null and start_date != ''">
+                AND t.update_time &gt;=  #{start_date}
+            </if>
+            <if test="end_date != null and end_date != ''">
+                AND t.update_time &lt;=  #{end_date}
+            </if>
+        </where>
+        ORDER BY t.update_time DESC
+    </select>
+
+    <insert id="add" keyProperty="id" parameterType="com.unisguard.webapi.common.dataobject.upgrade.UpgradeDO"
+            useGeneratedKeys="true">
+        insert into t_upgrade
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="path != null">
+                path,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="version != null">
+                #{version,jdbcType=VARCHAR},
+            </if>
+            <if test="path != null">
+                #{path,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+
+</mapper>
